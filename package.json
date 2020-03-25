@@ -3,6 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@koa/cors": "^3.0.0",
+    "@pusher/chatkit-client": "^1.14.1",
     "@pusher/chatkit-server": "^2.4.0",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
@@ -11,8 +13,12 @@
     "concurrently": "^5.1.0",
     "express": "latest",
     "koa": "latest",
+    "koa-json": "^2.0.2",
     "koa-route": "^3.2.0",
     "koa-router": "^8.0.8",
+    "koa2-cors": "^2.0.6",
+    "mongodb": "^3.5.3",
+    "pusher-platform-node": "latest",
     "react": "^16.13.0",
     "react-dom": "^16.13.0",
     "react-scripts": "3.4.0"
@@ -39,6 +45,7 @@
     ]
   },
   "devDependencies": {
+    "@pusher/chatkit": "^0.7.18",
     "cors": "^2.8.5",
     "koa-body": "^4.1.1",
     "koa-bodyparser": "^4.2.1",

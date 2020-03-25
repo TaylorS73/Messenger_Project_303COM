@@ -1,9 +1,44 @@
 import React, { Component } from 'react';
 import UserSignup from './components/UserSignup';
+import ChatScreen from './components/ChatScreen';
 
 class App extends Component {
-    render() {
-        return <UserSignup onSubmit={username => alert(username)}/>
+    constructor(props) {
+        super(props);
+        this.onUserSubmitted = this.onUserSubmitted.bind(this);
+        this.state =  {
+            currentScreen: 'UsernameScreen',
+            currentUsername: ''
+        }
+    }
+    onUserSubmitted (username) {
+        (async () => {
+            try {
+                const res = await fetch(`http://localhost:8080/users`,{
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({username})
+                });
+                if (res.status !== 204){
+                    this.setState({
+                        currentUsername: username,
+                        currentScreen: 'ChatScreen'
+                    });
+                }
+            } catch (err) {
+                console.error(err);
+            }
+        })();
+    }
+        render() {
+        if (this.state.currentScreen === 'UsernameScreen'){
+            return <UserSignup onSubmit={this.onUserSubmitted}/>
+        } else if (this.state.currentScreen === 'ChatScreen'){
+            return <ChatScreen currentUsername={this.state.currentUsername}/>
+        }
+
     }
 }
 
