@@ -4,17 +4,18 @@ class MessageList extends React.Component {
 
     render() {
         return (
-            <ul>
+            <div className="MessageListContainer">
+            <ul className="MessageListulElement">
             {this.props.messages.map((message, index) => (
-                <li key={index}>
+                <li className="MessageListliElement" key={index}>
                     <div>
-                        <span>{message.senderId}</span>
-                        <p>{message.text}</p>
+                        <span className="MessageListSenderUsername">{message.senderId}</span>
+                        <p className="MessageListMessage">{message.text}</p>
                     </div>
                 </li>
             ))}
-
             </ul>
+            </div>
         )
     }
 }

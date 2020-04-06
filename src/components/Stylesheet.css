@@ -1,6 +1,7 @@
-html, body {
+html, body{
     margin:0;
     padding: 0;
+    font-family: Consolas,monaco,"Ubuntu Mono",courier,monospace!important;
 }
 
 .Container{
@@ -10,18 +11,76 @@ html, body {
 }
 
 .ChatScreenStyle {
+    flex-direction: column;
     display: flex;
-    flex: 1
 }
 
 .Container2{
     display: flex;
     flex-direction: column;
+    width: 85%;
 }
 
 .OnlineListStyle{
-    width: 30%;
+    width: 15%;
     background-color: slategray;
+    height: available;
+    padding: 10px;
 }
 
+.OnlineUsersListElement{
+    display: flex;
+    align-items: center;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+}
 
+.OnlineUsersDivElement{
+    border-radius: 50%;
+    width: 11px;
+    height: 11px;
+    margin-right: 10px;
+}
+
+.MessageListContainer{
+    overflow-y: scroll;
+    flex: 1;
+}
+
+.MessageListulElement{
+    list-style: none;
+}
+
+.MessageListliElement{
+    margin-top: 13px;
+    margin-bottom: 13px;
+}
+
+.MessageListSenderUsername{
+    font-weight: bold;
+}
+
+.MessageListMessage{
+    font-size: 15px;
+}
+
+.MessageContainer{
+    padding: 20px;
+    border-top: 1px #4C758F solid;
+    margin-bottom: 20px;
+}
+
+.MessageForm{
+    display: flex;
+}
+
+.MessageInput{
+    color: inherit;
+    background: none;
+    outline: none;
+    border: none;
+    flex: 1;
+    font-size: 16px;
+}
