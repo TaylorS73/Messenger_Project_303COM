@@ -44,30 +44,31 @@ class ChatScreen extends React.Component {
                 this.getRooms();
 
                 return currentUser.subscribeToRoom({
-                                    roomId: "06454fe3-1cf8-4e09-8f7c-ce69ec00e3dc",
-                                    messageLimit: 100,
-                                    hooks: {
-                                        onMessage: message => {
-                                            this.setState({
-                                                messages: [...this.state.messages, message],
-                                            })
-                                        },
-                                        onUserStartedTyping: user => {
-                                            this.setState({
-                                                allUsersTyping: [...this.state.allUsersTyping, user.name]
-                                            })
-                                        },
-                                        onUserStoppedTyping: user => {
-                                            this.setState({
-                                                allUsersTyping: this.state.allUsersTyping.filter(
-                                                    username => username !== user.name
-                                                ),
-                                            })
-                                        },
-                                        onPresenceChange: () => this.forceUpdate(),
-                                        onUserJoined: () => this.forceUpdate(),
-                                    },
-                                })
+                    roomId: "06454fe3-1cf8-4e09-8f7c-ce69ec00e3dc",
+                    messageLimit: 100,
+                    hooks: {
+                        onMessage: message => {
+                            this.setState({
+                                messages: [...this.state.messages, message],
+                            })
+                        },
+                        onUserStartedTyping: user => {
+                            this.setState({
+                                allUsersTyping: [...this.state.allUsersTyping, user.name]
+                            })
+                        },
+                        onUserStoppedTyping: user => {
+                            this.setState({
+                                allUsersTyping: this.state.allUsersTyping.filter(
+                                    username => username !== user.name
+                                ),
+                            })
+                        },
+                        onPresenceChange: () => this.forceUpdate(),
+                        onUserJoined: () => this.forceUpdate(),
+                    },
+                })
+
             })
             .then(currentRoom => {
                 this.setState({currentRoom});
@@ -86,18 +87,33 @@ class ChatScreen extends React.Component {
             .catch(err => console.log('error on joining rooms: ', err))
     }
 
-    subscribeToRoom(roomID) {
-        this.setState({ messages: [] });
-        this.currentUser.subscribeToRoom({
-            roomId: roomID,
-            messageLimit: 100,
+    subscribeToRoom(roomId) {
+        this.setState({messages: []});
+        this.currentUser.subscribeToRoomMultipart({
+            roomId: roomId,
             hooks: {
-                onNewMessage: message => {
+                onMessage: message => {
                     this.setState({
                         messages: [...this.state.messages, message]
                     })
-                }
-            }
+                },
+                onUserStoppedTyping: user => {
+                    this.setState({
+                        allUsersTyping: this.state.allUsersTyping.filter(
+                            username => username !== user.name
+                        ),
+                    })
+                },
+                onUserStartedTyping: user => {
+                    this.setState({
+                        allUsersTyping: [...this.state.allUsersTyping, user.name]
+                    })
+                },
+                onPresenceChange: () => this.forceUpdate(),
+                onUserJoined: () => this.forceUpdate(),
+
+            },
+            messageLimit: 80,
         })
             .then(room =>{
                 this.setState({
@@ -148,11 +164,11 @@ class ChatScreen extends React.Component {
                     <div className="ChatScreenStyle">
                         <MessageList messages={this.state.messages}/>
                     </div>
-                <TypingIndicator allUsersTyping={this.state.allUsersTyping}/>
-                <SendMessage
-                    onSubmit={this.sendMessage}
-                    onChange={this.userTypingEvent}
-                />
+                    <TypingIndicator allUsersTyping={this.state.allUsersTyping}/>
+                    <SendMessage
+                        onSubmit={this.sendMessage}
+                        onChange={this.userTypingEvent}
+                    />
                 </div>
                 <NewRoom createRoom={this.createRoom}/>
             </div>
