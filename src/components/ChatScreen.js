@@ -21,6 +21,7 @@ class ChatScreen extends React.Component {
             allUsersTyping: [],
             patientStatus: ["Patient has Arrived", "Patient is in Surgery", "Patient has Left"]
         };
+
         this.sendMessage = this.sendMessage.bind(this);
         this.userTypingEvent = this.userTypingEvent.bind(this);
         this.createRoom = this.createRoom.bind(this);
@@ -55,6 +56,7 @@ class ChatScreen extends React.Component {
         chatManager.connect()
             .then(currentUser => {
             this.setState({ currentUser });
+            this.getRooms();
                 return currentUser.subscribeToRoom({
                     roomId: "c1d18c50-bb59-41aa-a7e9-706f7b158b2a",
                     messageLimit: 100,
@@ -65,6 +67,8 @@ class ChatScreen extends React.Component {
                             })
                         },
                         onUserStartedTyping: user => {
+                            console.log(user);
+                            console.log(user, 'started typing');
                             this.setState({
                                 allUsersTyping: [...this.state.allUsersTyping, user.name]
                             })
@@ -80,13 +84,11 @@ class ChatScreen extends React.Component {
                         onUserJoined: () => this.forceUpdate(),
                     },
                 })
-
             })
             .then(currentRoom => {
-                this.setState({currentRoom});
-                this.getRooms();
+                this.setState({currentRoom})
             })
-            .catch(error => console.error('error', error));
+            .catch(error => console.error('error', error))
     }
 
     getRooms() {
@@ -124,8 +126,7 @@ class ChatScreen extends React.Component {
                         allUsersTyping: [...this.state.allUsersTyping, user.name]
                     })
                 },
-                onUserCameOnline: () => this.forceUpdate(),
-                onUserWentOffline: () => this.forceUpdate(),
+                onPresenceChanged: () => this.forceUpdate(),
                 onUserJoined: () => this.forceUpdate(),
             },
         })
