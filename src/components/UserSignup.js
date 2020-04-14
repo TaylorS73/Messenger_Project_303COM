@@ -26,13 +26,16 @@ class UserSignup extends React.Component {
 
     render() {
         return (
-            <div>
-                <form onSubmit={this.onSubmit}>
-                    <input type="text" placeholder="What is your Username?" onChange={this.onChange}/>
+            <div className="login">
+                <div className="login-triangle">
+            </div>
+                <h1 className="login-header">Welcome</h1>
+                <form className="login-container" onSubmit={this.onSubmit}>
+                    <input type="text" placeholder="Username" onChange={this.onChange} required="required"/>
+                    <input type="password" placeholder="Password"/>
                     <input type="submit"/>
                 </form>
             </div>
-
         )
     }
 }

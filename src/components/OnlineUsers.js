@@ -8,9 +8,7 @@ class OnlineUsers extends React.Component {
                 {this.props.users.map((user, index) => {
                     if (user.id === this.props.currentUser.id){
                         return (
-                            <WhoisOnlineItem key={index} presenceState="online">
-                                {user.name} (YOU)
-                            </WhoisOnlineItem>
+                            <WhoisOnlineItem key={index} presenceState="online"> {user.name}(You)</WhoisOnlineItem>
                         )
                     }
                     return (
@@ -36,7 +34,7 @@ class WhoisOnlineItem extends React.Component {
     render() {
         return (
             <li className="OnlineUsersListElement">
-                <div className="OnlineUsersDivElement" style={{backgroundColor: this.props.presenceState === 'online' ? '#09ff00' : '#434956'}}/>
+                <div className="OnlineUsersDivElement" style={{backgroundColor: this.props.presenceState === 'online' ? '#43ff4b' : '#434956'}}/>
                 {this.props.children}
             </li>
         )

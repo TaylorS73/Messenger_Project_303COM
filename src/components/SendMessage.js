@@ -16,7 +16,6 @@ class SendMessage extends React.Component {
         this.setState({
                 text: event.target.value
         });
-        this.props.onChange()
     }
 
     onSubmit (event){
@@ -28,7 +27,7 @@ class SendMessage extends React.Component {
     render() {
         return (
             <div className="MessageContainer">
-                <form className="MessageForm" onSubmit={this.onSubmit}>
+                <form className="MessageForm" id="MessageForm" onSubmit={this.onSubmit}>
                     <input className="MessageInput" type="text" placeholder="Type here and press Enter" onChange={this.onChange} value={this.state.text}/>
                 </form>
             </div>

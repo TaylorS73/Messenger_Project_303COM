@@ -25,7 +25,7 @@ class App extends Component {
                     this.setState({
                         currentUsername: username,
                         currentScreen: 'ChatScreen'
-                    });
+                    })
                 }
             } catch (err) {
                 console.error(err);
@@ -34,7 +34,11 @@ class App extends Component {
     }
         render() {
         if (this.state.currentScreen === 'UsernameScreen'){
-            return <UserSignup onSubmit={this.onUserSubmitted}/>
+            return(
+            <div>
+                <UserSignup onSubmit={this.onUserSubmitted}/>
+            </div>
+            )
         } else if (this.state.currentScreen === 'ChatScreen'){
             return <ChatScreen currentUsername={this.state.currentUsername}/>
         }

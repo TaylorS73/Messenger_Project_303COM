@@ -14,6 +14,7 @@
     "express": "latest",
     "koa": "latest",
     "koa-json": "^2.0.2",
+    "koa-res": "^4.0.0",
     "koa-route": "^3.2.0",
     "koa-router": "^8.0.8",
     "koa2-cors": "^2.0.6",
@@ -46,6 +47,7 @@
   },
   "devDependencies": {
     "@pusher/chatkit": "^0.7.18",
+    "bcrypt": "^4.0.1",
     "cors": "^2.8.5",
     "koa-body": "^4.1.1",
     "koa-bodyparser": "^4.2.1",

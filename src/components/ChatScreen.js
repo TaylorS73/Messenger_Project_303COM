@@ -16,15 +16,30 @@ class ChatScreen extends React.Component {
             messages: [],
             joinableRooms: [],
             joinedRooms: [],
-            currentRoom: {},
             currentUser: {},
-            allUsersTyping: []
+            currentRoom: {},
+            allUsersTyping: [],
+            patientStatus: ["Patient has Arrived", "Patient is in Surgery", "Patient has Left"]
         };
         this.sendMessage = this.sendMessage.bind(this);
         this.userTypingEvent = this.userTypingEvent.bind(this);
         this.createRoom = this.createRoom.bind(this);
-        this.getRooms = this.getRooms.bind(this);
         this.subscribeToRoom = this.subscribeToRoom.bind(this);
+        this.buttonMessage = this.buttonMessage.bind(this);
+    }
+
+    userTypingEvent() {
+        this.state.currentUser.isTypingIn({
+            roomId: this.state.currentRoom.id
+        })
+            .catch(error => console.error('error is:', error))
+    }
+
+    sendMessage(text) {
+        this.state.currentUser.sendMessage({
+            text,
+            roomId: this.state.currentRoom.id
+        })
     }
 
     componentDidMount() {
@@ -34,17 +49,14 @@ class ChatScreen extends React.Component {
             tokenProvider: new Chatkit.TokenProvider({
                 url: `http://localhost:8080/authenticate`,
                 method: 'POST'
-            }),
+            })
         });
 
-        chatManager
-            .connect()
+        chatManager.connect()
             .then(currentUser => {
-                this.currentUser = currentUser;
-                this.getRooms();
-
+            this.setState({ currentUser });
                 return currentUser.subscribeToRoom({
-                    roomId: "06454fe3-1cf8-4e09-8f7c-ce69ec00e3dc",
+                    roomId: "c1d18c50-bb59-41aa-a7e9-706f7b158b2a",
                     messageLimit: 100,
                     hooks: {
                         onMessage: message => {
@@ -64,7 +76,7 @@ class ChatScreen extends React.Component {
                                 ),
                             })
                         },
-                        onPresenceChange: () => this.forceUpdate(),
+                        onPresenceChanged: () => this.forceUpdate(),
                         onUserJoined: () => this.forceUpdate(),
                     },
                 })
@@ -72,16 +84,17 @@ class ChatScreen extends React.Component {
             })
             .then(currentRoom => {
                 this.setState({currentRoom});
+                this.getRooms();
             })
             .catch(error => console.error('error', error));
     }
 
-    getRooms(){
-        this.currentUser.getJoinableRooms()
-            .then(joinableRooms =>{
+    getRooms() {
+        this.state.currentUser.getJoinableRooms()
+            .then(joinableRooms => {
                 this.setState({
                     joinableRooms,
-                    joinedRooms: this.currentUser.rooms
+                    joinedRooms: this.state.currentUser.rooms
                 })
             })
             .catch(err => console.log('error on joining rooms: ', err))
@@ -89,7 +102,7 @@ class ChatScreen extends React.Component {
 
     subscribeToRoom(roomId) {
         this.setState({messages: []});
-        this.currentUser.subscribeToRoomMultipart({
+        this.state.currentUser.subscribeToRoom({
             roomId: roomId,
             hooks: {
                 onMessage: message => {
@@ -98,6 +111,7 @@ class ChatScreen extends React.Component {
                     })
                 },
                 onUserStoppedTyping: user => {
+                    console.log(user, 'stopped typing');
                     this.setState({
                         allUsersTyping: this.state.allUsersTyping.filter(
                             username => username !== user.name
@@ -105,48 +119,46 @@ class ChatScreen extends React.Component {
                     })
                 },
                 onUserStartedTyping: user => {
+                    console.log(user.name, 'started typing');
                     this.setState({
                         allUsersTyping: [...this.state.allUsersTyping, user.name]
                     })
                 },
-                onPresenceChange: () => this.forceUpdate(),
+                onUserCameOnline: () => this.forceUpdate(),
+                onUserWentOffline: () => this.forceUpdate(),
                 onUserJoined: () => this.forceUpdate(),
-
             },
-            messageLimit: 80,
         })
-            .then(room =>{
-                this.setState({
-                    roomId: room.id
-                });
-                this.getRooms()
+            .then(currentRoom => {
+                this.setState({currentRoom});
             })
             .catch(err => console.log('error on subscribing to rooms:', err))
 
     }
 
-    sendMessage(text) {
-        this.currentUser.sendMessage({
-            text,
-            roomId: this.state.currentRoom.id
+    buttonMessage() {
+        this.state.currentUser.sendSimpleMessage({
+            roomId: this.state.currentRoom.id,
+            text: this.state.patientStatus[0]
         })
-    }
-
-    userTypingEvent() {
-        this.currentUser
-            .isTypingIn({roomId: this.state.currentRoom.id})
-            .catch(error => console.error('error is:', error)
-            )
-    }
-
-    createRoom(name){
-        this.currentUser.createRoom({
-            name
-        })
-            .then(room => {
-                console.log(`Created room: ${room.name}`)
+            .catch(err => {
+                console.log(`error adding message to ${this.state.currentRoom.name}: ${err}`)
             })
-            .catch(error => console.error('error is:', error))
+    }
+
+    createRoom(name) {
+        if (name == null) {
+            console.log('error')
+        } else {
+            this.state.currentUser.createRoom({
+                name
+            })
+                .then(room => {
+                    this.subscribeToRoom(room.id);
+                    console.log(`Created room: ${room.name}`)
+                })
+                .catch(error => console.error('error is:', error))
+        }
     }
 
     render() {
@@ -169,8 +181,15 @@ class ChatScreen extends React.Component {
                         onSubmit={this.sendMessage}
                         onChange={this.userTypingEvent}
                     />
+                    <form>
+                        <input type="button" placeholder="Patient has arrived." value="Patient has arrived." onClick={this.buttonMessage}/>
+                        <input type="button" placeholder="Patient is in surgery." value="Patient is in surgery."/>
+                        <input type="button" placeholder="Patient has left." value="Patient has left."/>
+                    </form>
                 </div>
-                <NewRoom createRoom={this.createRoom}/>
+                <div>
+                    <NewRoom createRoom={this.createRoom}/>
+                </div>
             </div>
         )
     }
