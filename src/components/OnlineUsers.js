@@ -8,7 +8,7 @@ class OnlineUsers extends React.Component {
                 {this.props.users.map((user, index) => {
                     if (user.id === this.props.currentUser.id){
                         return (
-                            <WhoisOnlineItem key={index} presenceState="online"> {user.name}(You)</WhoisOnlineItem>
+                            <WhoisOnlineItem key={index} presenceState="online"> {user.name} (You)</WhoisOnlineItem>
                         )
                     }
                     return (

@@ -3,16 +3,16 @@ import Chatkit from '@pusher/chatkit-client';
 import MessageList from "./MessageList";
 import SendMessage from "./SendMessage";
 import TypingIndicator from "./TypingIndicator";
-import './Stylesheet.css';
 import OnlineUsers from "./OnlineUsers";
 import NewRoom from "./NewRoom";
 import RoomList from "./RoomList";
+import './Stylesheet.css';
+
 
 class ChatScreen extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            roomId: null,
             messages: [],
             joinableRooms: [],
             joinedRooms: [],
@@ -30,11 +30,10 @@ class ChatScreen extends React.Component {
     }
 
     userTypingEvent() {
-        this.state.currentUser.isTypingIn({
-            roomId: this.state.currentRoom.id
-        })
-            .catch(error => console.error('error is:', error))
-    }
+        this.state.currentUser
+            .isTypingIn({roomId: this.state.currentRoom.id})
+            .catch(error => console.error('error is:', error)
+            )}
 
     sendMessage(text) {
         this.state.currentUser.sendMessage({
@@ -63,12 +62,10 @@ class ChatScreen extends React.Component {
                     hooks: {
                         onMessage: message => {
                             this.setState({
-                                messages: [...this.state.messages, message],
+                                messages: [...this.state.messages, message]
                             })
                         },
                         onUserStartedTyping: user => {
-                            console.log(user);
-                            console.log(user, 'started typing');
                             this.setState({
                                 allUsersTyping: [...this.state.allUsersTyping, user.name]
                             })
@@ -77,12 +74,12 @@ class ChatScreen extends React.Component {
                             this.setState({
                                 allUsersTyping: this.state.allUsersTyping.filter(
                                     username => username !== user.name
-                                ),
+                                )
                             })
                         },
                         onPresenceChanged: () => this.forceUpdate(),
                         onUserJoined: () => this.forceUpdate(),
-                    },
+                    }
                 })
             })
             .then(currentRoom => {
@@ -112,18 +109,16 @@ class ChatScreen extends React.Component {
                         messages: [...this.state.messages, message]
                     })
                 },
+                onUserStartedTyping: user => {
+                    this.setState({
+                        allUsersTyping: [...this.state.allUsersTyping, user.name]
+                    })
+                },
                 onUserStoppedTyping: user => {
-                    console.log(user, 'stopped typing');
                     this.setState({
                         allUsersTyping: this.state.allUsersTyping.filter(
                             username => username !== user.name
-                        ),
-                    })
-                },
-                onUserStartedTyping: user => {
-                    console.log(user.name, 'started typing');
-                    this.setState({
-                        allUsersTyping: [...this.state.allUsersTyping, user.name]
+                        )
                     })
                 },
                 onPresenceChanged: () => this.forceUpdate(),

@@ -13,9 +13,10 @@ class SendMessage extends React.Component {
     }
 
     onChange(event) {
-        this.setState({
-                text: event.target.value
-        });
+        this.setState({text: event.target.value});
+        if (this.props.onChange) {
+            this.props.onChange()
+        }
     }
 
     onSubmit (event){
