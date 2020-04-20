@@ -2,7 +2,7 @@ const Koa     = require('koa');
 const Router  = require('koa-router');
 const bodyParser = require('koa-bodyparser');
 const path = require('path');
-const static = require('koa-static');
+const serve = require('koa-static');
 const fs = require('fs');
 const route = require('koa-route');
 const jsn = require('koa-json');
@@ -18,15 +18,11 @@ const chatkit = new Chatkit.default({
     key: "e5f05666-11e0-411a-91c5-4468c3222437:f4OBdcWIZuEOEm/fpodYKO10mRpBun7WugFE7n1rCGI="
 });
 
-function* server() {
-    this.body = fs.readFileSync(path.resolve(path.join('public', 'index.html')), 'utf8')
-}
-app.use(route.get('*', server));
-app.use(static(path.resolve('public')));
+app.use(serve('.'));
 app.use(jsn());
 // app.use(dbUsers());
 app.use(bodyParser());
-app.use(router.routes());
+app.use(serve(router.routes()));
 app.use(cors());
 
 
