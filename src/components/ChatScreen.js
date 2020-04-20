@@ -30,6 +30,17 @@ class ChatScreen extends React.Component {
         this.buttonMessage = this.buttonMessage.bind(this);
     }
 
+    componentDidUpdate() {
+        setInterval(this.updateScroll,1000);
+    }
+
+    updateScroll = () => {
+        let element = document.querySelector('.message-list-container');
+        if (this.props.scrolled === false) {
+            element.scrollTop = element.scrollHeight;
+        }
+    };
+
     userTypingEvent() {
         this.state.currentUser
             .isTypingIn({roomId: this.state.currentRoom.id})
@@ -126,12 +137,12 @@ class ChatScreen extends React.Component {
                 },
                 onPresenceChanged: () => this.forceUpdate(),
                 onUserJoined: () => this.forceUpdate(),
+
             },
         })
             .then(currentRoom => {
                 this.setState({currentRoom});
                 this.onScroll();
-
             })
             .catch(err => console.log('error on subscribing to rooms:', err))
 
