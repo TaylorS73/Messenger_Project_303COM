@@ -2,7 +2,6 @@
   "name": "messsenger_app",
   "version": "0.1.0",
   "private": true,
-  "homepage":  "https://taylors73.github.io/Messenger_Project_303COM/",
   "dependencies": {
     "@koa/cors": "^3.0.0",
     "@pusher/chatkit-client": "^1.14.1",
@@ -30,8 +29,6 @@
     "react-scripts": "3.4.0"
   },
   "scripts": {
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -b master -d build",
     "start": "concurrently \"node ./src/server.js\" \"react-scripts start\"",
     "build": "react-scripts build",
     "test": "react-scripts test",
