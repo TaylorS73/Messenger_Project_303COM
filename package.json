@@ -1,6 +1,7 @@
 {
   "name": "messsenger_app",
   "version": "0.1.0",
+  "homepage": "https://messenger-project-303com.herokuapp.com/",
   "private": true,
   "dependencies": {
     "@koa/cors": "^3.0.0",
