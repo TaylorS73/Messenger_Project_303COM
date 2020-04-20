@@ -5,9 +5,6 @@ const path = require('path');
 const static = require('koa-static');
 const fs = require('fs');
 const route = require('koa-route');
-
-
-
 const jsn = require('koa-json');
 const app     = new Koa();
 const router  = new Router();
