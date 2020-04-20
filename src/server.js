@@ -13,7 +13,7 @@ const chatkit = new Chatkit.default({
     key: "e5f05666-11e0-411a-91c5-4468c3222437:f4OBdcWIZuEOEm/fpodYKO10mRpBun7WugFE7n1rCGI="
 });
 
-app.use(express.static(path.join(__dirname, '/build')));
+app.use(express.static(path.join(__dirname, 'build')));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cors());
@@ -24,8 +24,8 @@ app.use(cors());
 //     ctx.body = users
 // });
 
-app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname+'/build/index.html'));
+app.get('/*', (req, res) => {
+    res.sendFile(path.join(__dirname+'build', 'index.html'));
 });
 
 
