@@ -172,7 +172,7 @@ class ChatScreen extends React.Component {
                 <div className="chatContainer">
                     <div className="whosOnlineListContainer">
                         <OnlineUsers currentRoom={this.state.currentRoom} currentUser={this.state.currentUser} users={this.state.currentRoom.users}/>
-                        <RoomList subscribeToRoom={this.subscribeToRoom} rooms={[...this.state.joinableRooms, ...this.state.joinedRooms]}/>
+                        <RoomList subscribeToRoom={this.subscribeToRoom} rooms={[...this.state.joinableRooms, ...this.state.joinedRooms]} onScroll={this.onScroll}/>
                     </div>
                     <div className="chatListContainer">
                         <MessageList messages={this.state.messages} scrolled={this.state.scrolled} onScroll={this.onScroll} currentUser={this.state.currentUser}/>
