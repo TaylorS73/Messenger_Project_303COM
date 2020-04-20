@@ -19,10 +19,10 @@ const chatkit = new Chatkit.default({
 });
 
 function* server() {
-    this.body = fs.readFileSync(path.resolve(path.join('build', 'index.html')), 'utf8')
+    this.body = fs.readFileSync(path.resolve(path.join('public', 'index.html')), 'utf8')
 }
 app.use(route.get('*', server));
-app.use(static(path.resolve('build')));
+app.use(static(path.resolve('public')));
 app.use(jsn());
 // app.use(dbUsers());
 app.use(bodyParser());
