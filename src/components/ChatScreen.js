@@ -19,6 +19,7 @@ class ChatScreen extends React.Component {
             currentUser: {},
             currentRoom: {},
             allUsersTyping: [],
+            scrolled: false,
             patientStatus: ["Patient has Arrived", "Patient is in Surgery", "Patient has Left"]
         };
 
@@ -39,9 +40,11 @@ class ChatScreen extends React.Component {
         this.state.currentUser.sendMessage({
             text,
             roomId: this.state.currentRoom.id
+        });
+        this.setState({
+            scrolled: false
         })
     }
-
     componentDidMount() {
         const chatManager = new Chatkit.ChatManager({
             instanceLocator: 'v1:us1:cda0f940-152b-46e7-b38b-e20c2eb435de',
@@ -157,26 +160,25 @@ class ChatScreen extends React.Component {
         }
     }
 
+    onScroll = () => {
+        this.setState({
+            scrolled: true
+        })
+    };
+
     render() {
         return (
-            <div className="Container">
-                <div className="OnlineListStyle">
-                    <h2>User's Online</h2>
-                    <OnlineUsers currentUser={this.state.currentUser} users={this.state.currentRoom.users}/>
-                    <RoomList
-                        subscribeToRoom={this.subscribeToRoom}
-                        rooms={[...this.state.joinableRooms, ...this.state.joinedRooms]}/>
-                </div>
-                <div className="Container2">
-                    <h3>{this.state.currentRoom.name}</h3>
-                    <div className="ChatScreenStyle">
-                        <MessageList messages={this.state.messages}/>
+            <div className="container">
+                <div className="chatContainer">
+                    <div className="whosOnlineListContainer">
+                        <OnlineUsers currentRoom={this.state.currentRoom} currentUser={this.state.currentUser} users={this.state.currentRoom.users}/>
+                        <RoomList subscribeToRoom={this.subscribeToRoom} rooms={[...this.state.joinableRooms, ...this.state.joinedRooms]}/>
                     </div>
-                    <TypingIndicator allUsersTyping={this.state.allUsersTyping}/>
-                    <SendMessage
-                        onSubmit={this.sendMessage}
-                        onChange={this.userTypingEvent}
-                    />
+                    <div className="chatListContainer">
+                        <MessageList messages={this.state.messages} scrolled={this.state.scrolled} onScroll={this.onScroll} currentUser={this.state.currentUser}/>
+                        <TypingIndicator allUsersTyping={this.state.allUsersTyping}/>
+                        <SendMessage onSubmit={this.sendMessage} onChange={this.userTypingEvent} currentRoom={this.state.currentRoom}/>
+                    </div>
                     <form>
                         <input type="button" placeholder="Patient has arrived." value="Patient has arrived." onClick={this.buttonMessage}/>
                         <input type="button" placeholder="Patient is in surgery." value="Patient is in surgery."/>

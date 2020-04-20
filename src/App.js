@@ -11,6 +11,7 @@ class App extends Component {
             currentUsername: ''
         }
     }
+
     onUserSubmitted (username) {
         (async () => {
             try {
@@ -20,19 +21,22 @@ class App extends Component {
                         'Content-Type': 'application/json'
                     },
                     body: JSON.stringify({username})
+
                 });
                 if (res.status !== 204){
                     this.setState({
                         currentUsername: username,
                         currentScreen: 'ChatScreen'
-                    })
+                    });
+                    sessionStorage.setItem('username', username);
                 }
             } catch (err) {
                 console.error(err);
             }
         })();
     }
-        render() {
+
+    render() {
         if (this.state.currentScreen === 'UsernameScreen'){
             return(
             <div>
@@ -40,7 +44,7 @@ class App extends Component {
             </div>
             )
         } else if (this.state.currentScreen === 'ChatScreen'){
-            return <ChatScreen currentUsername={this.state.currentUsername}/>
+            return <ChatScreen currentUsername={this.state.currentUsername} path='/dashboard'/>
         }
 
     }

@@ -38,6 +38,7 @@ async function createUser(ctx, next) {
         });
         console.log(`User created: ${username}`);
         ctx.body = {message: "New user added"};
+        console.log()
     }catch(err){
         console.error(err);
         ctx.body = {message: "User already exists"};
@@ -68,6 +69,7 @@ async function authenticateUser(ctx,next) {
     try {
         const authData = chatkit.authenticate({userId: ctx.request.query.user_id});
         ctx.body = authData.body;
+
     } catch (err) {
         console.log(err.message)
     }

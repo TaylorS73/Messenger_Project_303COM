@@ -4,7 +4,12 @@ import './Stylesheet.css';
 class OnlineUsers extends React.Component {
     renderUsers() {
         return(
-            <ul>
+            <div>
+                <h3 className="whos-online-header">Current Room</h3>
+                <h5 className="whos-online-room">#{this.props.currentRoom.name}</h5>
+                <br />
+                <h3 className="whos-online-members">{this.props.users.length === 1 ? this.props.users.length + " Member" : this.props.users.length + " Members"}</h3>
+            <ul className="whos-online-list">
                 {this.props.users.map((user, index) => {
                     if (user.id === this.props.currentUser.id){
                         return (
@@ -18,6 +23,7 @@ class OnlineUsers extends React.Component {
                     )
                 })}
             </ul>
+            </div>
         )
     }
 

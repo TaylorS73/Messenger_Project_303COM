@@ -2,6 +2,7 @@
   "name": "messsenger_app",
   "version": "0.1.0",
   "private": true,
+  "homepage":  "https://taylors73.github.io/Messenger_Project_303COM/",
   "dependencies": {
     "@koa/cors": "^3.0.0",
     "@pusher/chatkit-client": "^1.14.1",
@@ -12,19 +13,25 @@
     "body-parser": "latest",
     "concurrently": "^5.1.0",
     "express": "latest",
+    "gh-pages": "^2.2.0",
+    "jsonwebtoken": "latest",
     "koa": "latest",
     "koa-json": "^2.0.2",
     "koa-res": "^4.0.0",
     "koa-route": "^3.2.0",
     "koa-router": "^8.0.8",
     "koa2-cors": "^2.0.6",
+    "moment": "^2.24.0",
     "mongodb": "^3.5.3",
     "pusher-platform-node": "latest",
     "react": "^16.13.0",
     "react-dom": "^16.13.0",
+    "react-router-dom": "^5.1.2",
     "react-scripts": "3.4.0"
   },
   "scripts": {
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -b master -d build",
     "start": "concurrently \"node ./src/server.js\" \"react-scripts start\"",
     "build": "react-scripts build",
     "test": "react-scripts test",
@@ -51,6 +58,7 @@
     "cors": "^2.8.5",
     "koa-body": "^4.1.1",
     "koa-bodyparser": "^4.2.1",
-    "pusher-chatkit-server": "^0.12.0"
+    "pusher-chatkit-server": "^0.12.0",
+    "react-cookie": "^4.0.3"
   }
 }
