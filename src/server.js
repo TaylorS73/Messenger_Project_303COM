@@ -1,14 +1,9 @@
-const Koa     = require('koa');
-const Router  = require('koa-router');
-const bodyParser = require('koa-bodyparser');
-const path = require('path');
-const serve = require('koa-static');
+const express = require('express');
+const bodyParser = require('body-parser');
 const fs = require('fs');
-const route = require('koa-route');
-const jsn = require('koa-json');
-const app     = new Koa();
-const router  = new Router();
-const cors = require('@koa/cors');
+const app = express();
+const path = require('path');
+const cors = require('cors');
 const Chatkit = require('@pusher/chatkit-server');
 // const bcrypt = require('bcrypt');
 
@@ -18,38 +13,37 @@ const chatkit = new Chatkit.default({
     key: "e5f05666-11e0-411a-91c5-4468c3222437:f4OBdcWIZuEOEm/fpodYKO10mRpBun7WugFE7n1rCGI="
 });
 
-app.use(serve('.'));
-app.use(jsn());
-// app.use(dbUsers());
-app.use(bodyParser());
-app.use(serve(router.routes()));
+app.use(express.static(path.join(__dirname, '/build')));
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 app.use(cors());
 
+// app.use(dbUsers());
 
 // app.use((ctx) =>{
 //     ctx.body = users
 // });
 
-router.post('/users', createUser);
-async function createUser(ctx, next) {
-    const {username} = ctx.request.body;
-    try {
-        // const hashedPassword = await bcrypt.hash(ctx.request.body.password, 10);
-        // const user = {username: ctx.request.body.username, password: hashedPassword};
-        // users.push(user);
-        await chatkit.createUser({
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname+'/build/index.html'));
+});
+
+
+app.post('/users', (req, res) => {
+    const { username } = req.body;
+    chatkit.createUser({
             id: username,
             name: username
-        });
-        console.log(`User created: ${username}`);
-        ctx.body = {message: "New user added"};
-        console.log()
-    }catch(err){
-        console.error(err);
-        ctx.body = {message: "User already exists"};
-    }
-    next();
-}
+        })
+        .then(() => res.sendStatus(201))
+        .catch(error => {
+            if (error.error === 'services/chatkit/user_already_exists') {
+                res.sendStatus(200)
+            } else {
+                res.status(error.status).json(error)
+            }
+        })
+});
 
 // router.post('/users/login', userLogin);
 // async function userLogin(ctx, next) {
@@ -69,16 +63,14 @@ async function createUser(ctx, next) {
 //     }
 // }
 
-router.post('/authenticate', authenticateUser);
-async function authenticateUser(ctx,next) {
+app.post('/authenticate', authenticateUser);
+async function authenticateUser(req,res) {
     try {
-        const authData = chatkit.authenticate({userId: ctx.request.query.user_id});
-        ctx.body = authData.body;
-
+        const authData = chatkit.authenticate({userId: req.query.user_id});
+        res.status(authData.status).send(authData.body);
     } catch (err) {
         console.log(err.message)
     }
-    next();
 }
 
 const port = process.env.PORT || 8080;

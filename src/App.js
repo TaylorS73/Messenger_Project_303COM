@@ -15,7 +15,7 @@ class App extends Component {
     onUserSubmitted (username) {
         (async () => {
             try {
-                const res = await fetch(`https://messenger-project-303com.herokuapp.com/users`,{
+                const res = await fetch(`/users`,{
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
