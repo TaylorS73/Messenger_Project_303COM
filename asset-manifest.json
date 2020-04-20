@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/Messenger_Project_303COM/static/css/main.60baa224.chunk.css",
+    "main.js": "/Messenger_Project_303COM/static/js/main.d3aca92a.chunk.js",
+    "main.js.map": "/Messenger_Project_303COM/static/js/main.d3aca92a.chunk.js.map",
+    "runtime-main.js": "/Messenger_Project_303COM/static/js/runtime-main.4f001da4.js",
+    "runtime-main.js.map": "/Messenger_Project_303COM/static/js/runtime-main.4f001da4.js.map",
+    "static/js/2.358248a2.chunk.js": "/Messenger_Project_303COM/static/js/2.358248a2.chunk.js",
+    "static/js/2.358248a2.chunk.js.map": "/Messenger_Project_303COM/static/js/2.358248a2.chunk.js.map",
+    "index.html": "/Messenger_Project_303COM/index.html",
+    "precache-manifest.40a440acc6aae144c0747d835e675cf0.js": "/Messenger_Project_303COM/precache-manifest.40a440acc6aae144c0747d835e675cf0.js",
+    "service-worker.js": "/Messenger_Project_303COM/service-worker.js",
+    "static/css/main.60baa224.chunk.css.map": "/Messenger_Project_303COM/static/css/main.60baa224.chunk.css.map",
+    "static/js/2.358248a2.chunk.js.LICENSE.txt": "/Messenger_Project_303COM/static/js/2.358248a2.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.4f001da4.js",
+    "static/js/2.358248a2.chunk.js",
+    "static/css/main.60baa224.chunk.css",
+    "static/js/main.d3aca92a.chunk.js"
+  ]
+}
