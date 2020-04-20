@@ -58,16 +58,10 @@ app.post('/users', (req, res) => {
 //     }
 // }
 
-app.post('/authenticate', authenticateUser);
-async function authenticateUser(req,res) {
-    try {
-        const authData = chatkit.authenticate({userId: req.query.user_id});
-        res.status(authData.status).send(authData.body);
-    } catch (err) {
-        console.log(err.message)
-    }
-}
-
+app.post('/authenticate', (req, res) => {
+    const authData = chatkit.authenticate({ userId: req.query.user_id });
+    res.status(authData.status).send(authData.body)
+});
 
 if (process.env.NODE_ENV === 'production'){
     app.use(express.static('build'));
