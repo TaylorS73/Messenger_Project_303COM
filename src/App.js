@@ -15,7 +15,7 @@ class App extends Component {
     onUserSubmitted (username) {
         (async () => {
             try {
-                const res = await fetch(process.env.URI || `http://localhost:8080/users`,{
+                const res = await fetch(process.env.URI || `/users`,{
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'

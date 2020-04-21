@@ -33,7 +33,7 @@ class SendMessage extends React.Component {
                         <input className="message-form-input" type="text" placeholder={"Message #" + this.props.currentRoom.name} onChange={this.onChange} value={this.state.text}/>
                     </form>
                 </div>
-                {this.state.text.length > 2 ? <div className="message-form-return">Hit Enter to Send</div> : ""}
+                {this.state.text.length > 1 ? <div className="message-form-return">Hit Enter to Send</div> : ""}
             </div>
         )
     }

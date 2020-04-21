@@ -50,7 +50,7 @@ class ChatScreen extends React.Component {
             instanceLocator: 'v1:us1:cda0f940-152b-46e7-b38b-e20c2eb435de',
             userId: this.props.currentUsername,
             tokenProvider: new Chatkit.TokenProvider({
-                url: process.env.URI || 'http://localhost:8080/authenticate',
+                url: process.env.URI || '/authenticate',
                 method: 'POST'
             })
         });
@@ -156,6 +156,7 @@ class ChatScreen extends React.Component {
             })
                 .then(room => {
                     this.subscribeToRoom(room.id);
+                    this.getRooms();
                     console.log(`Created room: ${room.name}`)
                 })
                 .catch(error => console.error('error is:', error))
@@ -175,6 +176,7 @@ class ChatScreen extends React.Component {
                     <div className="whosOnlineListContainer">
                         <OnlineUsers currentRoom={this.state.currentRoom} currentUser={this.state.currentUser} users={this.state.currentRoom.users}/>
                         <RoomList subscribeToRoom={this.subscribeToRoom} rooms={[...this.state.joinableRooms, ...this.state.joinedRooms]}/>
+                        <NewRoom createRoom={this.createRoom}/>
                     </div>
                     <div className="chatListContainer">
                         <div className="button-container">

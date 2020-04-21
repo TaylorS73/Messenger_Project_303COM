@@ -10,7 +10,7 @@ class RoomList extends React.Component {
                         return (
                             <li key={room.id} className="room">
                                 <a
-                                    onClick={() => this.props.subscribeToRoom(room.id)}{...this.props.onScroll}
+                                    onClick={() => this.props.subscribeToRoom(room.id)}
                                     href="/#">#{room.name}
                                 </a>
                             </li>

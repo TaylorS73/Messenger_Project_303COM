@@ -26,11 +26,13 @@ class NewRoom extends React.Component {
 
     render(){
         return(
-            <div>
-                <form onSubmit={this.onSubmit} >
-                    <input value={this.state.roomName} onChange={this.onChange} type="text" placeholder="Enter New Room"/>
-                        <input type='submit'/>
-                </form>
+            <div className="new-room-container">
+                <div className="new-room-form">
+                    <form onSubmit={this.onSubmit} >
+                        <input className="room-form-input" type="text" placeholder="Create New Room" value={this.state.roomName} onChange={this.onChange} />
+                    </form>
+                </div>
+
             </div>
         );
     }
