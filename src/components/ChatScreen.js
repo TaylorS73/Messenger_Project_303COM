@@ -49,7 +49,7 @@ class ChatScreen extends React.Component {
     }
     componentDidMount() {
         const chatManager = new Chatkit.ChatManager({
-            instanceLocator: 'v1:us1:cda0f940-152b-46e7-b38b-e20c2eb435de',
+            instanceLocator: '4675ae5e-c348-4fc9-8391-e191a8ac4742',
             userId: this.props.currentUsername,
             tokenProvider: new Chatkit.TokenProvider({
                 url: process.env.URI || '/authenticate',
