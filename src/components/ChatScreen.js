@@ -169,6 +169,17 @@ class ChatScreen extends React.Component {
         })
     };
 
+    componentDidUpdate() {
+        setInterval(this.updateScroll,1000);
+    }
+
+    updateScroll = () => {
+        let element = document.querySelector('.message-list-container');
+        if (this.props.scrolled === false) {
+            element.scrollTop = element.scrollHeight;
+        }
+    };
+
     render() {
         return (
             <div className="container">
