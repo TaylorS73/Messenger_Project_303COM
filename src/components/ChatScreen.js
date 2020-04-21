@@ -58,7 +58,6 @@ class ChatScreen extends React.Component {
         chatManager.connect()
             .then(currentUser => {
             this.setState({ currentUser });
-            this.getRooms();
                 return currentUser.subscribeToRoom({
                     roomId: "c1d18c50-bb59-41aa-a7e9-706f7b158b2a",
                     messageLimit: 100,
@@ -86,7 +85,9 @@ class ChatScreen extends React.Component {
                 })
             })
             .then(currentRoom => {
-                this.setState({currentRoom})
+                this.setState({currentRoom});
+                this.setState({scrolled: false});
+                this.getRooms();
             })
             .catch(error => console.error('error', error))
     }
@@ -104,7 +105,6 @@ class ChatScreen extends React.Component {
 
     subscribeToRoom(roomId) {
         this.setState({messages: []});
-        this.setState({scrolled: false});
         this.state.currentUser.subscribeToRoom({
             roomId: roomId,
             hooks: {
@@ -132,6 +132,7 @@ class ChatScreen extends React.Component {
         })
             .then(currentRoom => {
                 this.setState({currentRoom});
+                this.setState({scrolled: false});
             })
             .catch(err => console.log('error on subscribing to rooms:', err))
 
