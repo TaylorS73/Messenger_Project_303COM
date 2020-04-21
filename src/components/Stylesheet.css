@@ -5,8 +5,16 @@
 
 html{
     max-width: 100%;
-    overflow-x: hidden;
 }
+::-webkit-scrollbar {
+    width: 0;  /* Remove scrollbar space */
+    background: transparent;  /* Optional: just make scrollbar invisible */
+}
+
+::-webkit-scrollbar-thumb {
+    background: #FF0000;
+}
+
 body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
     margin: 0;
@@ -72,40 +80,55 @@ body {
 
 .button-container{
     position: absolute;
-    bottom: 8.5%;
-    right: 5%;
+    bottom: 8.2%;
+    right: 0.5%;
 }
 
-.chat-list-button:hover{
-    background-color: #2ecc71;
+.chat-list-form1:hover{
+    background-color: #09ff00;
 }
 
-.chat-list-button:active {
+.chat-list-form1:active {
     background-color: #2ecc71;
     box-shadow: 0 5px #95a5a6;
     transform: translateY(4px);
 }
 
-
-.chat-list-button+ .chat-list-button {
-    margin-left: 10px;
+.chat-list-form+ .chat-list-form {
+    margin-left: 5px;
 }
 
 /* general button style */
-.chat-list-button {
-    height: 60px;
-    width: 300px;
+.chat-list-form1 {
+    background-color: #27ae60;
+}
+.chat-list-form2 {
+    background-color: #ae7412;
+}
+.chat-list-form3 {
+    background-color: #d0100b;
+}
+
+.chat-list-form2:hover {
+    background-color: #f7973c;
+}
+
+.chat-list-form3:hover {
+    background-color: #ef220c;
+}
+
+.chat-list-form1, .chat-list-form2, .chat-list-form3 {
+    height: 32px;
+    width: 150px;
     text-align: center;
     cursor: pointer;
     font-size:12px;
-    padding:20px 60px;
+    padding:10px 10px;
     outline: none;
-    background-color: #27ae60;
     border: none;
-    border-radius: 2px;
-    box-shadow: 0 9px #95a5a6;
+    border-radius: 3px;
+    box-shadow: 0 6px #95a5a6;
 }
-
 
 .whos-typing-container {
     position: absolute;
@@ -137,10 +160,10 @@ body {
 
 .message-list-container {
     position: absolute;
-    left: 15%;
+    left: 15.5%;
     top: 0;
     padding: 20px;
-    width: 85%;
+    width: 55%;
     height: 87%;
     display: flex;
     flex-direction: column;
@@ -307,4 +330,8 @@ body {
     background: -webkit-linear-gradient(141deg, rgb(31, 200, 219), rgb(170, 23, 172));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+}
+
+.room-list{
+    text-decoration: underline;
 }

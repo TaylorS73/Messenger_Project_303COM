@@ -6,7 +6,8 @@ class UserSignup extends React.Component {
         super(props);
 
         this.state = {
-            username: null
+            username: null,
+            roomName: ''
         };
         this.onChange = this.onChange.bind(this);
         this.onSubmit = this.onSubmit.bind(this);

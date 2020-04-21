@@ -20,14 +20,16 @@ class ChatScreen extends React.Component {
             currentRoom: {},
             allUsersTyping: [],
             scrolled: false,
-            patientStatus: ["Patient has Arrived", "Patient is in Surgery", "Patient has Left"]
+            patientStatus: ["Patient has Arrived.", "Patient is in Surgery.", "Patient has Left."]
         };
 
         this.sendMessage = this.sendMessage.bind(this);
         this.userTypingEvent = this.userTypingEvent.bind(this);
         this.createRoom = this.createRoom.bind(this);
         this.subscribeToRoom = this.subscribeToRoom.bind(this);
-        this.buttonMessage = this.buttonMessage.bind(this);
+        this.leftMessage = this.leftMessage.bind(this);
+        this.arrivedMessage = this.arrivedMessage.bind(this);
+        this.surgeryMessage = this.surgeryMessage.bind(this);
     }
 
     userTypingEvent() {
@@ -59,7 +61,7 @@ class ChatScreen extends React.Component {
             .then(currentUser => {
             this.setState({ currentUser });
                 return currentUser.subscribeToRoom({
-                    roomId: "c1d18c50-bb59-41aa-a7e9-706f7b158b2a",
+                    roomId: "1841abd6-bdba-4896-a6ab-ec910774bf6f",
                     messageLimit: 100,
                     hooks: {
                         onMessage: message => {
@@ -138,10 +140,30 @@ class ChatScreen extends React.Component {
 
     }
 
-    buttonMessage() {
+    arrivedMessage() {
         this.state.currentUser.sendSimpleMessage({
             roomId: this.state.currentRoom.id,
             text: this.state.patientStatus[0]
+        })
+            .catch(err => {
+                console.log(`error adding message to ${this.state.currentRoom.name}: ${err}`)
+            })
+    }
+
+    surgeryMessage() {
+        this.state.currentUser.sendSimpleMessage({
+            roomId: this.state.currentRoom.id,
+            text: this.state.patientStatus[1]
+        })
+            .catch(err => {
+                console.log(`error adding message to ${this.state.currentRoom.name}: ${err}`)
+            })
+    }
+
+    leftMessage() {
+        this.state.currentUser.sendSimpleMessage({
+            roomId: this.state.currentRoom.id,
+            text: this.state.patientStatus[2]
         })
             .catch(err => {
                 console.log(`error adding message to ${this.state.currentRoom.name}: ${err}`)
@@ -164,23 +186,6 @@ class ChatScreen extends React.Component {
         }
     }
 
-    onScroll = () => {
-        this.setState({
-            scrolled: true
-        })
-    };
-
-    componentDidUpdate() {
-        setInterval(this.updateScroll,1000);
-    }
-
-    updateScroll = () => {
-        let element = document.querySelector('.message-list-container');
-        if (this.props.scrolled === false) {
-            element.scrollTop = element.scrollHeight;
-        }
-    };
-
     render() {
         return (
             <div className="container">
@@ -193,13 +198,12 @@ class ChatScreen extends React.Component {
                     <div className="chatListContainer">
                         <div className="button-container">
                             <form>
-                                <input type="button" className="chat-list-form" onClick={this.buttonMessage} value="Patient has arrived."/>
+                                <input type="button" className="chat-list-form1" onClick={this.arrivedMessage} value="Patient has arrived"/>
+                                <input type="button" className="chat-list-form2" onClick={this.surgeryMessage} value="Patient is in surgery"/>
+                                <input type="button" className="chat-list-form3" onClick={this.leftMessage} value="Patient has left"/>
                             </form>
-
-                            <button className="chat-list-button">Patient is in surgery.</button>
-                            <button className="chat-list-button">Patient has left.</button>
                         </div>
-                        <MessageList messages={this.state.messages} scrolled={this.state.scrolled} onScroll={this.onScroll} currentUser={this.state.currentUser}/>
+                        <MessageList messages={this.state.messages} currentUser={this.state.currentUser}/>
                         <TypingIndicator allUsersTyping={this.state.allUsersTyping}/>
                         <SendMessage onSubmit={this.sendMessage} onChange={this.userTypingEvent} currentRoom={this.state.currentRoom}/>
 

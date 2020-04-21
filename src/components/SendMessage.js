@@ -1,4 +1,5 @@
-import React from 'react';
+import * as React from 'react'
+import ScrollableFeed from 'react-scrollable-feed';
 
 class SendMessage extends React.Component {
 
@@ -6,7 +7,7 @@ class SendMessage extends React.Component {
         super(props);
 
         this.state = {
-            text: ''
+            text: '',
         };
         this.onChange = this.onChange.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
@@ -25,8 +26,23 @@ class SendMessage extends React.Component {
         this.setState({text: ''})
     }
 
+    componentDidUpdate() {
+        setInterval(this.updateScroll,1000);
+    }
+
+    updateScroll = () => {
+        let element = document.querySelector('.message-form-container');
+        if (this.props.scrolled === false) {
+            element.scrollTop = element.scrollHeight;
+        }
+    };
+
+
+
+
     render() {
         return (
+            <ScrollableFeed>
             <div className="message-form-container">
                 <div className="message-form">
                     <form onSubmit={this.onSubmit}>
@@ -35,6 +51,7 @@ class SendMessage extends React.Component {
                 </div>
                 {this.state.text.length > 1 ? <div className="message-form-return">Hit Enter to Send</div> : ""}
             </div>
+        </ScrollableFeed>
         )
     }
 }

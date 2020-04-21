@@ -1,27 +1,29 @@
 import React from "react";
+import ReactDOM from 'react-dom';
 
 class MessageList extends React.Component {
 
-    componentDidUpdate() {
-        setInterval(this.updateScroll,1000);
+    componentWillUpdate(nextProps, nextState) {
+        const node = ReactDOM.findDOMNode(this);
+        this.shouldScrollToBottom = node.scrollTop + node.clientHeight + 100 >= node.scrollHeight
     }
 
-    updateScroll = () => {
-        let element = document.querySelector('.message-list-container');
-        if (this.props.scrolled === false) {
-            element.scrollTop = element.scrollHeight;
+    componentDidUpdate(prevProps, prevState) {
+        if (this.shouldScrollToBottom) {
+            const node = ReactDOM.findDOMNode(this);
+            node.scrollTop = node.scrollHeight
         }
-    };
+    }
 
     render () {
         return(
-            <div className="message-list-container" onScroll={() => this.props.onScroll()}>
+            <div className="message-list-container">
                 {this.props.messages.map((message, index) => {
                         return <div key={index}>
                             <div className="message-item">
-                                <span>{this.props.currentUser.id === message.senderId ? <strong><font className="special-text">{message.senderId}</font></strong> : <strong>{message.senderId}</strong>}</span>
+                                <span>{this.props.currentUser.id === message.senderId ? <strong className="special-text">{message.senderId}</strong> : <strong>{message.senderId}</strong>}</span>
                                 <br/>
-                                <p className="message-list-text">{message.text}</p>
+                                <ul className="message-list-text">{message.text}</ul>
                             </div>
                             <br/>
                         </div>
@@ -30,7 +32,6 @@ class MessageList extends React.Component {
             </div>
         )
     }
-
 }
 
 export default MessageList;

@@ -44,7 +44,7 @@ class App extends Component {
             </div>
             )
         } else if (this.state.currentScreen === 'ChatScreen'){
-            return <ChatScreen currentUsername={this.state.currentUsername} path='/dashboard'/>
+            return <ChatScreen currentUsername={this.state.currentUsername}/>
         }
 
     }
