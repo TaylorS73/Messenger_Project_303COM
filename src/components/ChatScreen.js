@@ -30,17 +30,6 @@ class ChatScreen extends React.Component {
         this.buttonMessage = this.buttonMessage.bind(this);
     }
 
-    componentDidUpdate() {
-        setInterval(this.updateScroll,1000);
-    }
-
-    updateScroll = () => {
-        let element = document.querySelector('.message-list-container');
-        if (this.props.scrolled === false) {
-            element.scrollTop = element.scrollHeight;
-        }
-    };
-
     userTypingEvent() {
         this.state.currentUser
             .isTypingIn({roomId: this.state.currentRoom.id})
@@ -61,7 +50,7 @@ class ChatScreen extends React.Component {
             instanceLocator: 'v1:us1:cda0f940-152b-46e7-b38b-e20c2eb435de',
             userId: this.props.currentUsername,
             tokenProvider: new Chatkit.TokenProvider({
-                url: process.env.URI || '/authenticate',
+                url: process.env.URI || 'http://localhost:8080/authenticate',
                 method: 'POST'
             })
         });
@@ -115,6 +104,7 @@ class ChatScreen extends React.Component {
 
     subscribeToRoom(roomId) {
         this.setState({messages: []});
+        this.setState({scrolled: false});
         this.state.currentUser.subscribeToRoom({
             roomId: roomId,
             hooks: {
@@ -142,7 +132,6 @@ class ChatScreen extends React.Component {
         })
             .then(currentRoom => {
                 this.setState({currentRoom});
-                this.onScroll();
             })
             .catch(err => console.log('error on subscribing to rooms:', err))
 
@@ -185,22 +174,27 @@ class ChatScreen extends React.Component {
                 <div className="chatContainer">
                     <div className="whosOnlineListContainer">
                         <OnlineUsers currentRoom={this.state.currentRoom} currentUser={this.state.currentUser} users={this.state.currentRoom.users}/>
-                        <RoomList subscribeToRoom={this.subscribeToRoom} rooms={[...this.state.joinableRooms, ...this.state.joinedRooms]} scrolled={this.state.scrolled} onScroll={this.onScroll}/>
+                        <RoomList subscribeToRoom={this.subscribeToRoom} rooms={[...this.state.joinableRooms, ...this.state.joinedRooms]}/>
                     </div>
                     <div className="chatListContainer">
+                        <div className="button-container">
+                            <form>
+                                <input type="button" className="chat-list-form" onClick={this.buttonMessage} value="Patient has arrived."/>
+                            </form>
+
+                            <button className="chat-list-button">Patient is in surgery.</button>
+                            <button className="chat-list-button">Patient has left.</button>
+                        </div>
                         <MessageList messages={this.state.messages} scrolled={this.state.scrolled} onScroll={this.onScroll} currentUser={this.state.currentUser}/>
                         <TypingIndicator allUsersTyping={this.state.allUsersTyping}/>
                         <SendMessage onSubmit={this.sendMessage} onChange={this.userTypingEvent} currentRoom={this.state.currentRoom}/>
+
                     </div>
-                    <form>
-                        <input type="button" placeholder="Patient has arrived." value="Patient has arrived." onClick={this.buttonMessage}/>
-                        <input type="button" placeholder="Patient is in surgery." value="Patient is in surgery."/>
-                        <input type="button" placeholder="Patient has left." value="Patient has left."/>
-                    </form>
                 </div>
-                <div>
-                    <NewRoom createRoom={this.createRoom}/>
-                </div>
+
+                {/*<div>*/}
+                {/*    <NewRoom createRoom={this.createRoom}/>*/}
+                {/*</div>*/}
             </div>
         )
     }
